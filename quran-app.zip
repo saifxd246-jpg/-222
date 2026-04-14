@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مصحف الشيخ ياسر الدوسري</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #121212; /* لون غامق زي Spotify */
+            color: #white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #181818;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid #282828;
+        }
+        /* تصميم الصورة زي غلاف الألبوم */
+        .quran-img-container {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+        .quran-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .info {
+            margin: 15px 0;
+            margin-bottom: 25px;
+        }
+        .info h2 { 
+            margin: 5px 0; 
+            color: white; 
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .info p {
+            margin: 0;
+            color: #1DB954; /* لون أخضر براند */
+            font-size: 16px;
+        }
+        /* تصميم القائمة (Select) */
+        select {
+            width: 100%;
+            padding: 15px;
+            border-radius: 30px; /* دائرية */
+            background-color: white;
+            color: black;
+            border: none;
+            margin-bottom: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            appearance: none; /* إخفاء سهم المتصفح */
+            cursor: pointer;
+        }
+        select:hover {
+            background-color: #e0e0e0;
+        }
+        /* تصميم مشغل الصوت */
+        audio {
+            width: 100%;
+            height: 45px;
+            outline: none;
+        }
+        /* تعديل ألوان مشغل الصوت في بعض المتصفحات */
+        audio::-webkit-media-controls-panel {
+            background-color: #1DB954;
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: black;
+        }
+
+        .status { 
+            font-size: 12px; 
+            color: #888; 
+            margin-top: 10px;
+        }
+
+        /* تصميم الحقوق - كريم علاء */
+        .credits {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #aaa;
+            border-top: 1px solid #282828;
+            padding-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .credits .name {
+            color: white;
+            font-weight: bold;
+            display: block;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="quran-img-container">
+            <img id="mainImg" class="quran-img" src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=500" alt="Quran Cover">
+        </div>
+        
+        <div class="info">
+            <p>القارئ</p>
+            <h2>الشيخ ياسر الدوسري</h2>
+        </div>
+
+        <select id="surahSelect" onchange="changeSurah()">
+            <option value="" disabled selected>اختر السورة لتبدأ</option>
+            </select>
+        
+        <audio id="quranPlayer" controls preload="metadata">
+            <source id="audioSource" src="" type="audio/mpeg">
+        </audio>
+
+        <p class="status" id="status">جاهز للاستماع</p>
+    </div>
+
+    <div class="credits">
+        صنع بواسطة 
+        <span class="name">كريم علاء احمد عبد الباقي</span>
+    </div>
+
+    <script>
+        // قائمة أسماء السور كاملة
+        const surahNames = [
+            "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"
+        ];
+
+        // قائمة صور غلاف مختلفة
+        const albumCovers = [
+            "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=500",
+            "https://images.unsplash.com/photo-1584281722576-96307137a1f8?w=500",
+            "https://images.unsplash.com/photo-1542816417-0983c9c9ad53?w=500",
+            "https://images.unsplash.com/photo-1609511652011-f14d9b233a39?w=500",
+            "https://images.unsplash.com/photo-1577744158863-1498b87b5a5b?w=500"
+        ];
+
+        const select = document.getElementById('surahSelect');
+        const player = document.getElementById('quranPlayer');
+        const source = document.getElementById('audioSource');
+        const status = document.getElementById('status');
+        const mainImg = document.getElementById('mainImg');
+
+        // ملء قائمة السور تلقائياً
+        surahNames.forEach((name, index) => {
+            let option = document.createElement('option');
+            let num = (index + 1).toString().padStart(3, '0'); // لإنشاء 001, 002
+            option.value = num;
+            option.text = `${index + 1}. ${name}`;
+            select.appendChild(option);
+        });
+
+        function changeSurah() {
+            if (select.value === "") return; // لا تفعل شيء لو لم يختار
+
+            const selectedNum = select.value;
+            const selectedName = select.options[select.selectedIndex].text;
+            
+            // 1. تغيير رابط الصوت لسيرفر ياسر الدوسري المباشر
+            source.src = `https://server11.mp3quran.net/yasser/${selectedNum}.mp3`;
+            
+            // 2. تغيير صورة الغلاف (عشوائياً من القائمة)
+            mainImg.src = albumCovers[Math.floor(Math.random() * albumCovers.length)];
+            
+            // 3. تحديث المشغل
+            player.load(); // ضروري جداً لتحميل الرابط الجديد
+            player.play().catch(e => {
+                // التعامل مع منع التشغيل التلقائي في بعض المتصفحات
+                status.innerText = "اضغط على زر التشغيل";
+            });
+            
+            status.innerText = "جاري تحميل " + selectedName;
+        }
+
+        // التعامل مع حالات المشغل
+        player.onwaiting = () => { status.innerText = "جاري التحميل..."; };
+        player.onplaying = () => { status.innerText = "يعمل الآن"; };
+        player.onerror = () => { status.innerText = "خطأ: تأكد من الإنترنت أو الرابط"; };
+    </script>
+</body>
+</html>
